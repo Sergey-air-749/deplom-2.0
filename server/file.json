@@ -1,0 +1,19 @@
+{
+    "message": "Sending presigned URLs to client",
+    "logLevel": "INFO",
+    "timestamp": "2025-11-23T06:28:07.766Z",
+    "annotations": {
+        "presignedUrls": [
+            {
+                "url": "https://sea1.ingest.uploadthing.com/QGhblTealHkgQHRvjMealHkg7drbsIvVpO346TWcxfyEFwUA?expires=1763882887759&x-ut-identifier=z2d0ls0hg9&x-ut-file-name=PS.png&x-ut-file-size=6544&x-ut-file-type=image%252Fpng&x-ut-slug=fileUploader&x-ut-content-disposition=inline&signature=hmac-sha256%3D382733f6db35e53490bd5d7b297eaeb07f37cc0673e3e34565450e076fc95083",
+                "key": "QGhblTealHkgQHRvjMealHkg7drbsIvVpO346TWcxfyEFwUA",
+                "name": "PS.png",
+                "customId": null
+            }
+        ]
+    },
+    "spans": {
+        "handleUploadAction": 21
+    },
+    "fiberId": "#17"
+}

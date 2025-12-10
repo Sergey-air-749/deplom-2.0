@@ -1,0 +1,96 @@
+const express = require('express')  
+const router = express.Router()
+require('dotenv').config();
+
+const Users = require('../moduls/users')
+const authMidelwares = require('../midelwares/authMidelwares')
+
+
+
+router.post('/story/get/delete/:id', authMidelwares, async (req, res) => {
+    console.log(req.body);
+
+    try {
+        const { id } = req.params
+        const userId = req.userId
+
+        const user = await Users.findOne({_id: userId})
+        console.log(user);
+
+        const newFilseStory = user.filseStoryGet.filter((item) => item.id != id)
+        user.filseStoryGet = newFilseStory
+        await user.save()
+
+        res.status(200).send({msg:'Удалено из истории'});
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({msg: error.message})
+    }
+});
+
+router.post('/story/get/deleteAll/', authMidelwares, async (req, res) => {
+    console.log(req.body);
+    try {
+        const userId = req.userId
+
+        const user = await Users.findOne({_id: userId})
+        console.log(user);
+
+        user.filseStoryGet = []
+        await user.save()
+
+        res.status(200).send({msg:'Вся история удалена'});
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({msg: error.message})
+    }
+});
+
+
+
+
+// Story send CRUD
+
+router.post('/story/send/delete/:id', authMidelwares, async (req, res) => {
+    console.log(req.body);
+
+    try {
+        const { id } = req.params
+        const userId = req.userId
+
+        const user = await Users.findOne({_id: userId})
+        console.log(user);
+
+        const newFilseStory = user.filseStorySend.filter((item) => item.id != id)
+        user.filseStorySend = newFilseStory
+        await user.save()
+
+        res.status(200).send({msg:'Удалено из истории'});
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({msg: error.message})
+    }
+});
+
+router.post('/story/send/deleteAll/', authMidelwares, async (req, res) => {
+    console.log(req.body);
+    try {
+        const userId = req.userId
+
+        const user = await Users.findOne({_id: userId})
+        console.log(user);
+
+        user.filseStorySend = []
+        await user.save()
+
+        res.status(200).send({msg:'Вся история удалена'});
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({msg: error.message})
+    }
+});
+
+
+
+
+module.exports = router;

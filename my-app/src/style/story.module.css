@@ -1,0 +1,164 @@
+.story {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.blockStory {
+    width: 400px;
+}
+
+.formGetFileStory {
+    display: flex;
+    flex-direction: column;
+    padding-top: 20px;
+}
+
+.formHead {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 50px;
+}
+
+.formIcon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 10px;
+}
+
+.formTitle {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: var(--width);
+    gap: 10px;
+}
+
+.formTitle h2 {
+    text-align: center;
+}
+
+.formTitle p {
+    text-align: center;
+}
+
+
+
+
+
+
+.formStoryView {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.formStoryLinks {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.storyLinkStyle {
+    display: flex;
+    justify-content: start;
+    gap: 20px;
+    align-items: center;
+    width: 300px;
+    font-weight: 600;
+    font-size: 16px;
+    padding: 12px 50px;
+    background-color: #242424;
+    font-size: 18px;
+    text-decoration: none;
+    color: #008CFF;
+}
+
+.linkStyleBorderRadiusTop {
+    border-radius: 30px 30px 10px 10px;
+}
+
+.linkStyleBorderRadiusButton {
+    border-radius: 10px 10px 30px 30px;
+}
+
+
+
+
+
+
+
+
+
+.navigationPage {
+    display: flex;
+    padding-bottom: 40px;
+}
+
+.navStoryOptionsBlock {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.navStoryOptions {
+    display: flex;
+    width: 350px;
+    justify-content: space-between;
+    background-color: #242424;
+    padding: 5px;
+    border-radius: 50px;
+    /* gap: 20px; */
+}
+
+.buttonBackPageBlock {
+    display: flex;
+    align-items: center;
+}
+
+.buttonBackPage {
+    background: none;
+    border: none;
+}
+
+.LinkStoryOptions {
+    color: #bfbfbf;
+    width: 100%;
+    text-align: center;
+    text-decoration: none;
+    padding: 10px 0px;
+    border-radius: 50px;
+}
+
+.select {
+    color: #ffffff;
+    background-color: var(--blue);
+}
+
+
+@media (max-width: 430px) {
+
+    /* .blockStory {
+        width: 450px;
+    } */
+
+    .navStoryOptionsBlock {
+        width: auto;
+    }
+
+}
+
+@media (max-width: 380px) {
+
+    .navStoryOptions {
+       width: 300px;
+    }
+
+    .buttonBackPageBlock {
+        padding-left: 10px;
+    }
+
+}

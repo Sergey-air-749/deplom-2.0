@@ -1,0 +1,400 @@
+.account {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.accountBlock {
+    width: 400px;
+}
+
+.accountHeader {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    background-color: black;
+    padding: 15px 0px 15px 0px;
+    gap: 10px;
+}
+
+.headerTitle {
+    color: #ffffff;
+}
+
+.buttonBackPage {
+    display: flex;
+    align-items: center;
+    background: none;
+    border: none;
+}
+
+.nav {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+
+
+
+
+.accountInfoBlock {
+    padding: 20px 10px 40px 10px;
+}
+
+.userData {
+    display: flex;
+    gap: 15px;
+}
+
+.userAvatarBlock {
+    display: flex;
+    flex-shrink: 0;
+    width: 50px;
+    height: 50px;
+}
+
+
+
+
+
+.avatarEdit {
+    position: fixed;
+    z-index: 10;
+    width: 50px;
+    height: 50px;
+}
+
+.userAvatarImg {
+    position: fixed;
+    z-index: 1;
+    width: 50px;
+    height: 50px;
+    border-radius: 100px;
+}
+
+
+
+
+
+.userInfoBlock {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.userName {
+    color: #ffffff;
+}
+
+.userEmail {
+    color: #8b8b8b;
+}
+
+
+
+
+
+.accountSetting {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    /* padding: 0px 20px; */
+}
+
+.links {
+    display: flex;
+    flex-direction: column;
+    background-color: #202020;
+    border-radius: 20px;
+}
+
+.link {
+    color: #ffffff;
+    text-decoration: none;
+    padding: 15px 20px;
+    border-bottom: 1px solid #343434;
+}
+
+.linkButton {
+    color: #ffffff;
+    text-decoration: none;
+    padding: 15px 20px;
+    background: none;
+    border: none;
+    border-bottom: 1px solid #343434;
+    font-size: 16px;
+    text-align: start;
+}
+
+
+
+
+
+
+.accountSettingDop {
+    display: flex;
+    justify-content: center;
+    padding-top: 20px;
+}
+
+
+
+
+
+
+
+.avatarPreviweBackground {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100vh;
+    background-color: #00000080;
+    z-index: 9999;
+}
+
+.avatarPreviwe {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 500px;
+    height: 500px;
+    border-radius: 20px;
+    background-color: rgb(36, 36, 36);
+    padding: 20px;
+}
+
+.avatarPreviweHead {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.previweHeadTitle h2 {
+    color: #ffffff;
+}
+
+.styleButtonClose  {
+    background: none;
+    border: none;
+}
+
+
+
+
+.avatarPreviweImgBlock {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.avatarPreviweImgMask {   
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 250px;
+    height: 250px;
+    border-radius: 300px;
+    overflow: hidden;
+}
+
+
+.avatarPreviweImg {
+    display: table;
+    /* height: 200px; */
+}
+
+
+
+.avatarPreviweButtons {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.styleButtonSave {
+    background-color: #008cff;
+    border: none;
+    color: var(--width);
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 100px;
+    padding: 12px 15px;
+    outline: none;
+    width: 100%;
+}
+
+.styleButtonCancel {
+    background-color: #131313;
+    border: none;
+    color: var(--width);
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 100px;
+    padding: 12px 15px;
+    outline: none;
+    width: 100%;
+}
+
+.styleButtonPopUpClose {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    color: var(--width);
+}
+
+
+
+
+
+
+
+
+
+
+
+.deleteAccountBackground {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100vh;
+    background-color: #00000080;
+    z-index: 9999;
+}
+
+.deleteAccount {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 500px;
+    border-radius: 20px;
+    background-color: rgb(36, 36, 36);
+    padding: 20px;
+}
+
+
+.deleteAccountInfo {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-top: 20px;
+    padding-bottom: 50px;
+    gap: 20px;
+}
+
+.deleteAccountInfo h2 {
+    color: #ffffff;
+    text-align: center;
+}
+
+.deleteAccountInfo p {
+    color: #ffffff;
+    text-align: center;
+}
+
+.deleteAccountButtons {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.styleButtonDelete {
+    background-color: var(--colorCancel);
+    border: none;
+    color: var(--width);
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 100px;
+    padding: 12px 15px;
+    outline: none;
+    width: 100%;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+.loadingBlock {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 80vh;
+}
+
+.loading {
+    color: #ffffff;
+}
+
+.buttonLogOut {
+    background: none;
+    border: none;
+    color: #ff7b7b;
+    font-size: 16px;
+    padding: 5px;
+}
+
+.colorRed {
+    color: #ff7b7b;
+}
+
+
+
+.hide {
+    display: none;
+}
+
+@media (max-width: 430px) {
+
+    .accountBlock {
+        width: 400px;
+    }
+
+    .avatarPreviwe {
+        height: 100%;
+        border-radius: 0px;
+    }
+
+}
+
+@media (max-width: 380px) {
+
+    .accountBlock {
+        width: 350px;
+    }
+
+}
+
+@media (max-width: 320px) {
+
+    .accountBlock {
+        width: 300px;
+    }
+
+}
+
+

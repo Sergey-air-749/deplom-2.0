@@ -1,0 +1,446 @@
+.getFileStory {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.blockStory {
+    width: 400px;
+}
+
+.formGetFileStory {
+    display: flex;
+    flex-direction: column;
+}
+
+.formHead {
+    display: flex;
+    flex-direction: column;
+    padding-top: 20px;
+    padding-bottom: 70px;
+}
+
+.formIcon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 10px;
+}
+
+.formTitle {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: var(--width);
+    gap: 10px;
+}
+
+.formTitle h2 {
+    text-align: center;
+}
+
+.formTitle p {
+    text-align: center;
+}
+
+
+
+
+/* StoryView */
+
+.formFileStoryTitleBlock {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 20px 20px 20px;
+}
+
+.formFileStoryTitleBlock h2 {
+    color: #ffffff;
+}
+
+.formFileStorySettings {
+    display: flex;
+    align-items: center;
+    background: none;
+    border: none;
+}
+
+
+
+
+
+
+
+.fileStoryViewBlock {
+    display: flex;
+    flex-direction: column;
+    color: var(--width);
+}
+
+.fileItem {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+    border-top: 1px solid rgb(125, 125, 125);
+    gap: 10px;
+}
+
+.fileBlock {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    flex-shrink: 5;
+    width: 100%;
+    gap: 10px;
+}
+
+.fileButtons {
+    display: flex;
+    align-items: start;
+    justify-content: center;
+    flex-shrink: 5;
+    width: 100%;
+    gap: 10px;
+}
+
+.fileInfo {
+    display: flex;
+    padding: 15px 0px;
+    flex-direction: column;
+    align-items: start;
+    word-break: break-all;
+    flex-shrink: 5;
+    width: 100%;
+    gap: 5px;
+}
+
+.fileInfoText {
+    font-size: 14px;
+}
+
+
+.fileIcon {
+    display: flex;
+    flex-shrink: 0;
+}
+
+.fileName {
+    display: flex;
+    flex-shrink: 0;
+    color: #ffffff;
+    word-break: break-all;
+}
+
+.metaData {
+    font-size: 14px;
+}
+
+
+
+
+
+
+
+
+
+.textItem {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    border-top: 1px solid rgb(125, 125, 125);
+    width: 100%;
+}
+
+.textBlock {
+    width: 100%;
+    padding: 10px 15px;
+    border: 1px solid rgb(125, 125, 125);
+    word-break: break-all;
+    border-radius: 10px;
+}
+
+.textInfo {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    padding: 10px 0px;
+    gap: 10px;
+}
+
+.textButtons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 5;
+    width: 100%;
+    gap: 10px;
+}
+
+
+
+
+
+
+.notFilesStory {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+}
+
+.notFilesStorySpan {
+   font-size: 16px;
+   color: #aaaaaa;
+}
+
+
+
+
+
+
+
+
+
+/* settingsStoryPopUp */
+
+.settingsStoryPopUpBackground {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100vh;
+    background-color: #00000066;
+}
+
+.settingsStoryPopUp {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    width: 450px;
+    height: 550px;
+    padding: 10px;
+    background-color: rgb(36, 36, 36);;
+    border: 1px solid rgb(31, 31, 31);;
+    border-radius: 20px;
+}
+
+.settingsStoryPopUpHeader {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 10px 20px 10px;
+}
+
+.settingsStoryPopUpHeader h2 {
+    color: #ffffff;
+}
+
+.buttonFilePopUpClose {
+    display: flex;
+    align-items: center;
+    background: none;
+    border: none;
+}
+
+
+.buttonSettingsStoryPopUpClose {
+    display: flex;
+    align-items: center;
+    background: none;
+    border: none;
+}
+
+.settingsStoryPopUpOptions {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    gap: 10px;
+}
+
+.settingsStoryPopUpOptionBlock {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+}
+
+.settingsStoryPopUpOptionButton {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    gap: 10px;
+    font-size: 16px;
+    background: none;
+    border: none;
+}
+
+.delete {
+    color: #ff7070;
+}
+
+
+
+
+
+
+
+/* settingsMessageStoryPopUp */
+
+.messageDeleteStoryPopUpBackground {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100vh;
+    background-color: #00000066;
+}
+
+.messageDeleteStoryPopUp {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    width: 350px;
+    padding: 20px;
+    background-color: rgb(36, 36, 36);;
+    border: 1px solid rgb(31, 31, 31);;
+    border-radius: 20px;
+}
+
+.messageDeleteStoryPopUpHeader {
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    flex-direction: column;
+    padding-top: 20px;
+    padding-bottom: 40px;
+    gap: 20px;
+}
+
+.messageDeleteStoryPopUpHeader h2 {
+    font-size: 20px;
+    color: #ffffff;
+}
+
+.messageDeleteStoryPopUpHeader span {
+    color: #ffffff;
+}
+
+.messageDeleteStoryPopUpOptions {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.messageDeletePopUpOptionButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--blue);
+    border: none;
+    color: var(--width);
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 100px;
+    padding: 10px 15px;
+    outline: none;
+    gap: 5px;
+    /* width: 100%; */
+}
+
+.filesAllDelete {
+    background-color: var(--colorCancel);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.navigationPage {
+    display: flex;
+    padding-bottom: 50px;
+}
+
+.navStoryOptionsBlock {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.navStoryOptions {
+    display: flex;
+    width: 350px;
+    justify-content: space-between;
+    background-color: #242424;
+    padding: 5px;
+    border-radius: 50px;
+    /* gap: 20px; */
+}
+
+.buttonBackPageBlock {
+    display: flex;
+    align-items: center;
+}
+
+.buttonBackPage {
+    background: none;
+    border: none;
+}
+
+.LinkStoryOptions {
+    color: #bfbfbf;
+    width: 100%;
+    text-align: center;
+    text-decoration: none;
+    padding: 10px 0px;
+    border-radius: 50px;
+}
+
+.select {
+    color: #ffffff;
+    background-color: var(--blue);
+}
+
+
+@media (max-width: 430px) {
+
+    /* .blockStory {
+        width: 450px;
+    } */
+
+    .navigationPage {
+        justify-content: space-evenly;
+    }
+
+    .navStoryOptionsBlock {
+        width: auto;
+    }
+
+}
+
+@media (max-width: 380px) {
+
+    .navStoryOptions {
+       width: 300px;
+    }
+
+}
