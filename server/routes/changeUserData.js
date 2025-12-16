@@ -310,7 +310,7 @@ router.put('/change/password', authMidelwares, async (req, res) => {
         if (passwordValed != false) {
 
             if (passwordRepeatNew == passwordNew) {
-                const hashed = await bcrypt.hash(password, 10)
+                const hashed = await bcrypt.hash(passwordNew, 10)
 
                 user.password = hashed  
                 await user.save()
@@ -322,9 +322,6 @@ router.put('/change/password', authMidelwares, async (req, res) => {
         } else {
             res.status(400).json({msg: "Не верный пароль"})
         }
-
-        user.username = usernameNew
-        await user.save()
 
     } catch (error) {
         console.log(error);

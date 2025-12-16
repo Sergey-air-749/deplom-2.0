@@ -1,0 +1,181 @@
+/* .deleteAccount {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+} */
+
+/* .deleteAccountBlock {
+    width: 400px;
+}
+*/
+
+
+
+.deleteAccount {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(26, 26, 26);
+}
+
+.deleteAccountForm {
+    position: relative;
+    display: flex;
+    width: 500px;
+    flex-direction: column;
+    background-color: #000000;
+    border: 1px solid #222222;
+    border-radius: 10px;
+    padding: 40px;
+}
+
+.deleteAccountHead {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    background-color: black;
+    /* padding: 15px 0px 15px 0px; */
+    gap: 10px;
+} 
+
+
+
+
+
+.headerTitle {
+    color: #ffffff;
+}
+
+.buttonBackPage {
+    display: flex;
+    align-items: center;
+    background: none;
+    border: none;
+}
+
+
+
+
+
+
+
+
+.deleteAccountMainHead {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 50px;
+    padding-top: 30px;
+}
+
+
+.formTitle {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.formTitle h2 {
+    color: #ffffff;
+    text-align: center;
+}
+
+
+.deleteAccountInfo {
+    display: flex;
+    flex-direction: column;
+    /* padding: 10px; */
+    padding-bottom: 50px;
+    gap: 20px;
+}
+
+.deleteAccountInfo h3 {
+    color: #ffffff;
+}
+
+.deleteAccountInfo p {
+    color: #c0c0c0;
+}
+
+.styleFooter {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.styleButtonDelete {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--colorCancel);
+    border: none;
+    color: var(--width);
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 100px;
+    padding: 10px 120px;
+    outline: none;
+    gap: 5px;
+}
+
+
+
+.error {
+    color: rgb(255, 137, 137);
+}
+
+
+
+
+
+@media (max-width: 500px) {
+    .deleteAccountForm {
+        width: 100%;
+        height: 100vh;
+        border: none;
+        border-radius: 0px;
+        padding-top: 100px;
+        padding: 20px;
+    }
+
+    .content {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 85vh;
+    }
+
+    .changePassword {
+        background-color: rgb(0, 0, 0);
+    }
+}
+
+
+
+
+/* 
+
+@media (max-width: 430px) {
+    .deleteAccountBlock {
+        width: 400px;
+    }
+}
+
+@media (max-width: 380px) {
+    .deleteAccountBlock {
+        width: 350px;
+    }
+}
+
+@media (max-width: 320px) {
+    .deleteAccountBlock {
+        width: 300px;
+    }
+}
+ */

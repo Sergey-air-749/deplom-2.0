@@ -4,14 +4,14 @@
     background-color: rgb(26, 26, 26);
 }
 
-.header {
+/* .header {
     display: flex;
     align-items: center;
     justify-content: space-between;
     width: 100%;
     background-color: black;
     padding: 15px 20px 15px 20px;
-}
+} */
 
 .headerTitle {
     color: #ffffff;

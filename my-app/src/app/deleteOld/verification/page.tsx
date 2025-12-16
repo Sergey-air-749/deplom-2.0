@@ -1,12 +1,12 @@
 "use client"
 import { ChangeEvent, FormEvent, useState } from "react";
 import Link from "next/link";
-import style from "../../../../style/delete.account.verify.module.css"
+import style from "../../../../style/verify.email.module.css"
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import { useAppSelector } from "../../../../components/hooks";
 
-export default function deleteAccountVerification() {
+export default function SignupEmail() {
 
     const { isAuth, userData } = useAppSelector(state => state.authReducer)
     const [password, setPassword] = useState("")
@@ -62,7 +62,7 @@ export default function deleteAccountVerification() {
                     console.log(serverMessage);
                     
                     if (serverMessage.response?.data?.msg != undefined) {
-                        console.log(serverMessage.response?.data?.msg);   
+                        console.log(serverMessage.response?.data?.msg);     
                         setError(serverMessage.response?.data?.msg)
                     } else {
                         console.log(serverMessage.message)
@@ -73,7 +73,7 @@ export default function deleteAccountVerification() {
     }
 
     const buttonBackPage = async () => {
-        router.push('/account')
+        router.back
     }
 
     const showPasswordFun = () => {
@@ -86,7 +86,7 @@ export default function deleteAccountVerification() {
 
 
     return (
-        <div className={style.deleteAccountVerification}>
+        <div className={style.changeEmail}>
             
             <form className={style.formLogin} onSubmit={(e) => submitUserUpData(e)}>
 
@@ -98,14 +98,10 @@ export default function deleteAccountVerification() {
                             <path d="M54 49.5C54 54.1944 45.4934 58 35 58C24.5066 58 16 54.1944 16 49.5C16 47.0553 18.3069 44.8517 22 43.301C25.3986 41.874 29.9712 41 35 41C45.4934 41 54 44.8056 54 49.5Z" fill="#96C3FF"/>
                             <circle cx="35" cy="30" r="8" fill="#96C3FF"/>
                             <circle cx="35" cy="35" r="23.5" stroke="#008CFF" strokeWidth="3"/>
-                            <rect x="13" y="47" width="44" height="12" rx="6" fill="white"/>
-                            <circle cx="19" cy="53" r="2" fill="#008CFF"/>
-                            <circle cx="27" cy="53" r="2" fill="#008CFF"/>
-                            <circle cx="35" cy="53" r="2" fill="#008CFF"/>
-                            <circle cx="43" cy="53" r="2" fill="#008CFF"/>
-                            <circle cx="51" cy="53" r="2" fill="#008CFF"/>
+                            <circle cx="52" cy="51" r="8" fill="white" stroke="white" strokeWidth="2"/>
+                            <rect x="47" y="50" width="10" height="2" rx="1" fill="#008CFF"/>
+                            <rect x="51" y="56" width="10" height="2" rx="1" transform="rotate(-90 51 56)" fill="#008CFF"/>
                         </svg>
-
 
                     </div>
 

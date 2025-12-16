@@ -21,6 +21,14 @@ const user = new mongoose.Schema({
         type: String,
         require: true,
     },
+    isGuest: {
+        type: Boolean
+    },
+    session: {
+        type: Object,
+        require: true,
+    },
+
 
     filse: {
         type: Array,
@@ -31,6 +39,7 @@ const user = new mongoose.Schema({
     filseStoryGet: {
         type: Array,
     },
+
 
     verificationCode: {
         type: String
@@ -45,7 +54,16 @@ const user = new mongoose.Schema({
         type: String
     },
 
+
     expirationTime: {
+        type: String
+    },
+
+
+    isDelete: {
+        type: Boolean
+    },
+    accountDeleteExpirationTime: {
         type: String
     },
 

@@ -87,7 +87,8 @@
 .selectOptionStyle {
     background-color: var(--dark-gray-input);
     border: 1px solid #2e2e2e;
-    color: #9a9a9a;
+    color: #d0d0d0;
+    /* color: #9a9a9a; */
     width: 100%;
     border-radius: 100px;
     padding: 12px 15px;

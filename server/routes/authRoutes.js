@@ -39,45 +39,6 @@ async function sendVerificationSingUpCode(recipientEmail, code) {
 
 
 
-// router.post('/signup/email/verify', authMidelwares, async (req, res) => {
-//     try {
-//         const { code } = req.body
-//         const userId = req.userId
-      
-//         const user = await Users.findOne({_id: userId})
-//         console.log(user);
-
-//         const expirationTime = new Date(user.codeExpires)
-
-//         if (expirationTime > new Date()) {
-
-//             if (user.verificationCode != code) {
-//                 res.status(400).json({ msg: 'Неверный код подтверждения.' });
-//             } else {
-
-//                 user.isVerified = undefined
-
-//                 await user.save()
-
-//                 res.status(200).json({msg: 'Адрес эл. почты изменён'});
-//             }
-
-//         } else {
-
-//             user.verificationCode = undefined
-//             user.codeExpires = undefined
-
-//             await user.save()
-
-//             res.status(400).json({ msg: 'Срок действия кода истёк. Запросите новый код.' });
-//         }
-
-//     } catch (error) {
-//         console.log(error);
-//         res.status(500).json({msg: error.message})
-//     }
-// })
-
 router.post('/signup', async (req, res) => {
     try {
         const {email, username, password} = req.body
@@ -126,9 +87,37 @@ router.post('/signup', async (req, res) => {
             sendVerificationSingUpCode(email, code)
             
             const token = jwt.sign({id: newUser._id}, process.env.JWT_SECRET_KEY, {expiresIn: "24h"})
-            res.json({token: token})
+            res.status(200).json({token: token})
 
         }
+
+    } catch (error) {
+        res.status(500).json({msg: error.message})
+    }
+})
+
+router.post('/signup/guest', async (req, res) => {
+    try {
+
+        const shareId = Math.floor(Math.random() * 99999999)
+        const newUser = new Users(
+            {
+                email: '',
+                username: '', 
+                password: '',
+                shareId: shareId,
+                avatar: { 
+                    '400': "http://localhost:7000/api/images/avatars/default", 
+                    '1000': "http://localhost:7000/api/images/avatars/default" 
+                },
+                isGuest: true
+            }
+        )
+        await newUser.save()
+        console.log(newUser);
+        
+        const token = jwt.sign({id: newUser._id}, process.env.JWT_SECRET_KEY, {expiresIn: "24h"})
+        res.status(200).json({token: token})
 
     } catch (error) {
         res.status(500).json({msg: error.message})
@@ -153,16 +142,22 @@ router.post('/login', async (req, res) => {
                 res.status(400).json({msg: "Неверная Почта"})       
             }
         } else {
-            if (userData.isVerified != false) {
+            if (userData.isDelete == true) {
+                
+                res.status(400).json({msg: "Аккаунта с такими данными не существует"})
+
+            } else if (userData.isVerified != false) {
+
                 const passwordValed = await bcrypt.compare(password, userData.password)
                 console.log(passwordValed);
 
                 if (passwordValed != false) {
                     const token = jwt.sign({id: userData._id}, process.env.JWT_SECRET_KEY, {expiresIn: "24h"})
-                    res.json({token: token})
+                    res.status(200).json({token: token})
                 } else {
                     res.status(400).json({msg: "Не верный пароль"})
                 }
+                
             } else {
 
                 const code = Math.floor(Math.random() * 999999)
@@ -180,6 +175,98 @@ router.post('/login', async (req, res) => {
 
                 const token = jwt.sign({id: userData._id}, process.env.JWT_SECRET_KEY, {expiresIn: "24h"})
                 res.status(400).json({msg: "Почта не верифицирована", token: token})
+            }
+
+        }
+
+    } catch (error) {
+        res.status(500).json({msg: error.message})
+    }
+})
+
+
+router.post('/login/resetpassword', async (req, res) => {
+
+    try {
+        const {email} = req.body
+        const userData = await Users.findOne({email})
+
+        if (!userData) {
+            res.status(400).json({msg: "Аккаунта с этой почтой не существует"})
+        } else {
+            const code = Math.floor(Math.random() * 999999)
+
+            const expirationTime = new Date();
+            expirationTime.setTime(expirationTime.getTime() + (10 * 60 * 1000));
+
+            userData.verificationCode = code,
+            userData.codeExpires = expirationTime,
+
+            sendVerificationSingUpCode(email, code)
+
+            await userData.save()
+
+            res.status(200).json({msg: "Код отправлен"})
+
+        }
+
+    } catch (error) {
+        res.status(500).json({msg: error.message})
+    }
+})
+
+router.post('/login/resetpassword/cancel', async (req, res) => {
+
+    try {
+        const {email} = req.body
+        const userData = await Users.findOne({email})
+        userData.verificationCode = undefined
+        userData.codeExpires = undefined
+
+    } catch (error) {
+        res.status(500).json({msg: error.message})
+    }
+})
+
+router.post('/login/resetpassword/verify', async (req, res) => {
+
+    const {email, code, passwordNew } = req.body
+    
+    try {
+
+        const userData = await Users.findOne({email})
+
+        if (!userData) {
+            res.status(400).json({msg: "Аккаунта с этой почтой не существует"})
+        } else {
+           const expirationTime = new Date(userData.codeExpires)
+
+            if (expirationTime > new Date()) {
+
+                if (userData.verificationCode != code) {
+                    res.status(400).json({ msg: 'Неверный код подтверждения.' });
+                } else {
+
+                    userData.verificationCode = undefined
+                    userData.codeExpires = undefined
+
+                    const hashed = await bcrypt.hash(passwordNew, 10)
+                    userData.password = hashed
+
+                    await userData.save()
+
+                    const token = jwt.sign({id: userData._id}, process.env.JWT_SECRET_KEY, {expiresIn: "24h"})
+                    res.status(200).json({token: token})
+                }
+
+            } else {
+
+                userData.verificationCode = undefined
+                userData.codeExpires = undefined
+
+                await userData.save()
+
+                res.status(400).json({ msg: 'Срок действия кода истёк. Запросите новый код.' });
             }
 
         }

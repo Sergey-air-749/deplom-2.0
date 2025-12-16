@@ -100,12 +100,19 @@ router.post('/:option/email/verify', authMidelwares, async (req, res) => {
 
                 if (option == 'change') {
 
-                    user.email = user.emailNew
-                    user.emailNew = undefined
+                    if (user.emailNew != null) {
 
-                    await user.save()
+                        user.email = user.emailNew
+                        user.emailNew = undefined
 
-                    res.status(200).json({msg: 'Адрес эл. почты изменён'});
+                        await user.save()
+                        res.status(200).json({msg: 'Адрес эл. почты изменён'});
+
+                    } else {
+                        res.status(200).json({msg: 'Что-то пошло не так'});
+                    }
+
+
 
                 } else if (option == 'signup') {
 
@@ -183,9 +190,9 @@ router.get('/:option/email/cancel', authMidelwares, async (req, res) => {
         const userId = req.userId
         const { option } = req.params
 
-        if (!option || option == '') {
+        // if (!option || option == '') {
             
-        }
+        // }
         const user = await Users.findOne({_id: userId})
         console.log(user);
 

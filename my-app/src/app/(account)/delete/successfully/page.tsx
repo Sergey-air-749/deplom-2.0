@@ -1,19 +1,30 @@
 "use client"
-import { ChangeEvent, FormEvent, useEffect, useMemo, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import Link from "next/link";
-import style from "../../../style/delete.account.module.css"
+import style from "../../../../style/delete.account.module.css"
 import { useRouter } from "next/navigation";
 import axios from "axios";
-import { useAppSelector } from "../../../components/hooks";
+import { useAppSelector } from "../../../../components/hooks";
 
-export default function DeleteAccount() {
+export default function SignupEmail() {
 
     const { isAuth, userData } = useAppSelector(state => state.authReducer)
-    
+    const [password, setPassword] = useState("")
+    const [showPasswordStatus, setShowPasswordStatus] = useState("password")
     const [isVerify, setIsVerify] = useState(false)
+    const [message, setMessage] = useState("")
     const [error, setError] = useState("")
 
+    const passwordRegexp = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    
     const router = useRouter()
+
+    const validationInputPassword = (e: ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value
+        console.log(passwordRegexp.test(value)); 
+        setPassword(value)  
+    }
+
 
 
     useEffect(() => {
@@ -70,79 +81,23 @@ export default function DeleteAccount() {
     }, [])
 
 
-
-
-
-
-
-    const submitAccountDelete = async (e: FormEvent<HTMLFormElement>) => {
-        e.preventDefault()
-
-            try {
-            
-                const token = localStorage?.getItem('token')
-
-                const response = await axios.delete('http://localhost:7000/api/account/delete',
-
-                    {
-                        headers: {
-                            'authorization': `Bearer ${token}`,
-                            'Content-Type': 'application/json'
-                        }, 
-                    }
-                );
-                console.log('Response:', response);
-
-                location.pathname = '/delete/successfully'
-
-                localStorage.removeItem('token')
-                
-
-            } catch (error) {
-                console.log(error);
-                if (axios.isAxiosError(error)) {
-                    const serverMessage = error
-                    console.log(serverMessage);
-                    
-                    if (serverMessage.response?.data?.msg != undefined) {
-                        console.log(serverMessage.response?.data?.msg);     
-                        setError(serverMessage.response?.data?.msg)
-                    } else {
-                        console.log(serverMessage.message)
-                        setError(serverMessage.message)
-                    }
-                }
-            }
+    const buttonBackPage = async () => {
+        router.back
     }
 
-
-    const buttonBackPage = () => {
-        router.push('/account')
+    const showPasswordFun = () => {
+        if (showPasswordStatus == "password") {
+            setShowPasswordStatus("text")
+        } else {
+            setShowPasswordStatus("password")
+        }
     }
 
 
     return (
         <div className={style.deleteAccount}>
-
-            <form onSubmit={(e) => submitAccountDelete(e)} className={style.deleteAccountForm}>
-
-
-
-                <header className={style.deleteAccountHead}>
-
-                    <div className={style.buttonBackPageBlock}>
-                        <button type="button" onClick={() => buttonBackPage()} className={style.buttonBackPage}>
-                            <svg xmlns="http://www.w3.org/2000/svg" height="36px" viewBox="0 -960 960 960" width="36px" fill="#ffffff"><path d="M560-240 320-480l240-240 56 56-184 184 184 184-56 56Z"/></svg>
-                        </button>
-                    </div>           
-                            
-                    {/* <div className={style.headerTitle}>
-                        <h2>Аккаунт</h2>
-                    </div> */}
-                   
-                </header>
-
-
+            
+            <form className={style.deleteAccountForm}>
 
                 <div className={style.content}>
 
@@ -165,7 +120,7 @@ export default function DeleteAccount() {
                             </div>
 
                             <div className={style.formTitle}>
-                                <h2>Удалить аккаунт</h2>
+                                <h2>Ваш аккаунт удален</h2>
                             </div>
 
                         </div>
@@ -173,35 +128,16 @@ export default function DeleteAccount() {
 
                         <div className={style.deleteAccountInfo}>
 
-                            <h3>Внимательно прочтите это перед тем как удалить аккаунта</h3>
-
-                            <p>Ваш аккаунт, отправленные вам файлы и история, будет навсегда удален, отменить удаление можно в течение 14 дней</p>
+                            <p>Ваш данные аккаунт, отправленные файлы и история, были удалены, отменить удаление можно в течение 14 дней</p>
                         
                         </div>
 
                     </main>
-
-
-                    <footer className={style.styleFooter}>
-
-                        {/* <span className={style.error}>{error}</span> */}
-
-                        {
-
-                            isVerify == true ? (
-                                <button type="submit" className={style.styleButtonDelete}>Удалить</button>
-                            ) : (
-                                <div></div>
-                            )
-
-                        }
-                    </footer>
-
-
                 </div>
 
 
-                
+
+
             </form>
 
         </div>

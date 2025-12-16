@@ -1,5 +1,5 @@
 "use client"
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, MouseEvent, useState } from "react";
 import style from "../../../style/signup.module.css"
 import { useRouter } from "next/navigation";
 import axios from "axios";
@@ -99,9 +99,12 @@ export default function Signup() {
 
     const submitSignUpUser = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        console.log(password == passwordRepeat && error == "");
+        console.log(password);
+        console.log(passwordRepeat);
         
-        if (password == passwordRepeat && error == "") {
+        console.log(password == passwordRepeat);
+        
+        if (password == passwordRepeat) {
             try {
             
                 const userData = {
@@ -139,6 +142,39 @@ export default function Signup() {
         } else {
             setError("Пароль не совподает")
         }
+    }
+
+
+
+
+    const сontinueAsGuestFun = async (e: MouseEvent<HTMLButtonElement>) => {
+        
+        try {
+            
+            const response = await axios.post('http://localhost:7000/api/signup/guest');
+            console.log('Response:', response);
+            console.log('Token:', response.data.token);
+
+            localStorage.setItem("token", response.data.token)
+            route.push('/sendfile')
+
+
+        } catch (error) {
+            console.log(error);
+            if (axios.isAxiosError(error)) {
+                const serverMessage = error
+                console.log(serverMessage);
+                
+                if (serverMessage.response?.data?.msg != undefined) {
+                    console.log(serverMessage.response?.data?.msg);     
+                    setError(serverMessage.response?.data?.msg)
+                } else {
+                    console.log(serverMessage.message)
+                    setError(serverMessage.message)
+                }
+            }
+        }
+
     }
 
     return (
@@ -206,6 +242,7 @@ export default function Signup() {
 
                     <div className={style.formLinks}>
                         <Link className={`${style.Link}`} href={'/login'}>Есть аккаунт вход</Link>
+                        <button type="button" onClick={(e) => сontinueAsGuestFun(e)} className={`${style.Link} ${style.buttonLink}`}>Продолжить как гость</button>
                     </div>
 
                 </div>

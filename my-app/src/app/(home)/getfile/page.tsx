@@ -293,38 +293,51 @@ export default function Getfile() {
                           
                           files.map((file, index) => (
 
-                            file.filename != undefined ? (
-
                               <div key={index} className={style.fileItem}>
 
-                                <div className={style.fileBlock}>
+                                {
 
-                                  <div className={style.fileIcon}>
+                                  file.filename != undefined ? ( 
 
-                                    <svg width="40" height="40" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                      <g clipPath="url(#clip0_103_46)">
-                                        <path d="M100 100V0H50H37.5L0 37.5V50V100H100Z" fill="white"/>
-                                        <path d="M50 0H37.5L0 37.5V50H50V0Z" fill="white"/>
-                                        <path d="M8.53554 28.9645L28.9645 8.53553C32.1143 5.38571 37.5 7.61654 37.5 12.0711V32.5C37.5 35.2614 35.2614 37.5 32.5 37.5H12.0711C7.61654 37.5 5.38572 32.1143 8.53554 28.9645Z" fill="#E4E4E4"/>
-                                        <path d="M0 37.5L37.5 0V18.75L18.75 37.5H0Z" fill="#E4E4E4"/>
-                                      </g>
+                                    <div className={style.fileBlock}>
 
-                                      <defs>
-                                        <clipPath id="clip0_103_46">
-                                        <rect width="100" height="100" rx="5" fill="white"/>
-                                        </clipPath>
-                                      </defs>
+                                      <div className={style.fileIcon}>
 
-                                    </svg>
+                                        <svg width="40" height="40" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                          <g clipPath="url(#clip0_103_46)">
+                                            <path d="M100 100V0H50H37.5L0 37.5V50V100H100Z" fill="white"/>
+                                            <path d="M50 0H37.5L0 37.5V50H50V0Z" fill="white"/>
+                                            <path d="M8.53554 28.9645L28.9645 8.53553C32.1143 5.38571 37.5 7.61654 37.5 12.0711V32.5C37.5 35.2614 35.2614 37.5 32.5 37.5H12.0711C7.61654 37.5 5.38572 32.1143 8.53554 28.9645Z" fill="#E4E4E4"/>
+                                            <path d="M0 37.5L37.5 0V18.75L18.75 37.5H0Z" fill="#E4E4E4"/>
+                                          </g>
 
-                                  </div>
+                                          <defs>
+                                            <clipPath id="clip0_103_46">
+                                            <rect width="100" height="100" rx="5" fill="white"/>
+                                            </clipPath>
+                                          </defs>
 
-                                  <div className={style.fileName}>
-                                    <span>{file.filename}</span>
-                                  </div>
+                                        </svg>
 
+                                      </div>
 
-                                </div>
+                                      <div className={style.fileName}>
+                                        <span>{file.filename}</span>
+                                      </div>
+
+                                    </div>
+                                    
+                                  ) : file.text != undefined ? (
+
+                                    <div className={style.textBlock}>
+                                      <span>{file.text}</span>
+                                    </div>
+
+                                  ) : (
+                                    <div></div>
+                                  )
+                                  
+                                }
 
 
                                 <div className={style.fileInfo}>
@@ -334,41 +347,25 @@ export default function Getfile() {
                                   <span className={style.fileInfoText}>Время: {file.data}</span>
                                 </div>
 
-                                <div className={style.fileButtons}>
-                                  <button className={style.styleButtonDownlodeCancel} type="button" onClick={() => fileCancelFun(file.id)}>Откланить</button>
-                                  <button className={style.styleButtonDownlode} type="button" onClick={() => fileAcceptFun(file.filename, file.id)}>Скачать</button>
-                                </div>
+                                {
+
+                                  file.filename != undefined ? ( 
+                                    <div className={style.fileButtons}>
+                                      <button className={style.styleButtonDownlodeCancel} type="button" onClick={() => fileCancelFun(file.id)}>Откланить</button>
+                                      <button className={style.styleButtonDownlode} type="button" onClick={() => fileAcceptFun(file.filename, file.id)}>Скачать</button>
+                                    </div>
+                                  ) : file.text != undefined ? (
+                                    <div className={style.fileButtons}>
+                                      <button className={style.styleButtonDownlodeCancel} type="button" onClick={() => fileCancelFun(file.id)}>Откланить</button>
+                                      <button className={style.styleButtonDownlode} type="button" onClick={() => textCopyFun(file.text, file.id)}>Капировать</button>
+                                    </div>
+                                  ) : (
+                                    <div></div>
+                                  )
+
+                                }
                             
                               </div> 
-
-                            ) : file.text != undefined ? (
-                              <div key={index} className={style.textItem}>
-
-                                
-                                <div className={style.textBlock}>
-                                  <span>{file.text}</span>
-                                </div>
-
-                                <div className={style.fileInfo}>
-                                  <span className={style.fileInfoText}>Отправитель: {file.sentToUser}</span>
-                                  <span className={style.fileInfoText}>Получатель: {file.userWillReceive}</span>
-                                  <span className={style.fileInfoText}>Отправлено с устройства: {file.sentFromDevice}</span>
-                                  <span className={style.fileInfoText}>Время: {file.data}</span>
-                                </div>
-
-                                <div className={style.fileButtons}>
-                                  <button className={style.styleButtonDownlodeCancel} type="button" onClick={() => fileCancelFun(file.id)}>Откланить</button>
-                                  <button className={style.styleButtonDownlode} type="button" onClick={() => textCopyFun(file.text, file.id)}>Капировать</button>
-                                </div>
-
-                                
-
-                              </div> 
-                            ) : (
-                              <div></div>
-                            )
-
-                                 
 
                           )) 
                         }

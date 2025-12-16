@@ -16,13 +16,19 @@ export default function Account() {
 
     const fileInputRef = useRef<HTMLInputElement | null>(null);
 
+    
     const fileInputChange = () => {
         fileInputRef.current?.click(); 
     }
-
+    
     const { isAuth, userData } = useAppSelector(state => state.authReducer)
     const router = useRouter()
+    
+    useEffect(() => {
 
+        // localStorage.setItem('leave', 'true')
+
+    }, [])
     
     
     const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -314,6 +320,7 @@ export default function Account() {
                                 <Link className={style.link} href={'/change/name'}>Изменить имя пользователя</Link>
                                 <Link className={style.link} href={'/change/password'}>Изменить пароль</Link>
                                 {/* <button className={`${style.colorRed} ${style.linkButton}`} onClick={() => showDeleteAccountPopUpFun()}>Удалить аккаунт</button> */}
+                                <Link className={`${style.colorRed} ${style.link}`} href={'/delete/verification'}>Удалить аккаунт</Link>
                             </div>
 
                         </div>

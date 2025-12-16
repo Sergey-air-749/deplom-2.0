@@ -50,11 +50,14 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
               if (serverMessage.response?.data?.msg != undefined) {
                 console.log(serverMessage.response?.data?.msg);   
                 
-                if (serverMessage.response?.data?.msg == "invalid token") {
-                  router.push('/login')
-                } else if (serverMessage.response?.data?.msg == "invalid data") {
-                  router.push('/login')
+                if (serverMessage.response?.data?.msg != "invalid token" || serverMessage.response?.data?.msg != "invalid data") {
+
+                  if (location.pathname != '/delete/successfully' && location.pathname != '/recovering/successfully') {
+                    router.push('/login')
+                  }
+
                 }
+                
               } else {
                 console.log(serverMessage.message)
               }
@@ -62,11 +65,11 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       }
     }
 
-    if (token != null) {
+    // if (token != null) {
       getUserData()
-    } else {
-      router.push('/login')
-    }
+    // } else {
+      // router.push('/login')
+    // }
   }, [])
 
   return (

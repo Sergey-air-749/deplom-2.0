@@ -204,6 +204,10 @@
         border-radius: 0px;
         padding-top: 100px;
     }
+
+    .changePassword {
+        background-color: rgb(0, 0, 0);
+    }
 }
 
 

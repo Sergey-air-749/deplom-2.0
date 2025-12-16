@@ -39,6 +39,10 @@ export default function Story() {
                                 <svg xmlns="http://www.w3.org/2000/svg" height="36px" viewBox="0 -960 960 960" width="36px" fill="#e3e3e3"><path d="M560-240 320-480l240-240 56 56-184 184 184 184-56 56Z"/></svg>
                             </button>
                         </div>
+
+                        <div className={style.navigationPageTitle}>
+                            <h2>История</h2>
+                        </div>
                         
                     </div>
 

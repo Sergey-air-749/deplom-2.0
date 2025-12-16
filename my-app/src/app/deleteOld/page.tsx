@@ -53,9 +53,6 @@ export default function DeleteAccount() {
                     
                     if (serverMessage.response?.data?.msg != undefined) {
                         console.log(serverMessage.response?.data?.msg);     
-                        if (serverMessage.response?.data?.msg == 'Нет сессий') {
-                            location.pathname = '/delete/verification'
-                        }
                         setError(serverMessage.response?.data?.msg)
                     } else {
                         console.log(serverMessage.message)
@@ -75,14 +72,14 @@ export default function DeleteAccount() {
 
 
 
-    const submitAccountDelete = async (e: FormEvent<HTMLFormElement>) => {
+    const submitUserUpData = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
 
             try {
             
                 const token = localStorage?.getItem('token')
 
-                const response = await axios.delete('http://localhost:7000/api/account/delete',
+                const response = await axios.put('http://localhost:7000/api/change/email',
 
                     {
                         headers: {
@@ -93,9 +90,7 @@ export default function DeleteAccount() {
                 );
                 console.log('Response:', response);
 
-                location.pathname = '/delete/successfully'
-
-                localStorage.removeItem('token')
+                location.pathname = '/change/email/verification/'
                 
 
             } catch (error) {
@@ -117,14 +112,14 @@ export default function DeleteAccount() {
 
 
     const buttonBackPage = () => {
-        router.push('/account')
+        router.back()
     }
 
 
     return (
         <div className={style.deleteAccount}>
 
-            <form onSubmit={(e) => submitAccountDelete(e)} className={style.deleteAccountForm}>
+            <div className={style.deleteAccountBlock}>
 
 
 
@@ -136,9 +131,9 @@ export default function DeleteAccount() {
                         </button>
                     </div>           
                             
-                    {/* <div className={style.headerTitle}>
+                    <div className={style.headerTitle}>
                         <h2>Аккаунт</h2>
-                    </div> */}
+                    </div>
                    
                 </header>
 
@@ -157,10 +152,9 @@ export default function DeleteAccount() {
                                     <circle cx="35" cy="30" r="8" fill="#96C3FF"/>
                                     <circle cx="35" cy="35" r="23.5" stroke="#008CFF" strokeWidth="3"/>
                                     <circle cx="52" cy="51" r="8" fill="white" stroke="white" strokeWidth="2"/>
-                                    <rect x="47" y="50" width="10" height="2" rx="1" fill="#008CFF"/>
-                                    <rect x="51" y="56" width="10" height="2" rx="1" transform="rotate(-90 51 56)" fill="#008CFF"/>
+                                    <path d="M50.4024 54.6395L47.7522 55.1684L48.2811 52.5182L54.8923 45.907L57.0136 48.0283L50.4024 54.6395Z" fill="white" stroke="#008CFF"/>
+                                    <rect x="57.7207" y="48.0283" width="3" height="4" rx="0.2" transform="rotate(135 57.7207 48.0283)" fill="#008CFF"/>
                                 </svg>
-
 
                             </div>
 
@@ -175,7 +169,7 @@ export default function DeleteAccount() {
 
                             <h3>Внимательно прочтите это перед тем как удалить аккаунта</h3>
 
-                            <p>Ваш аккаунт, отправленные вам файлы и история, будет навсегда удален, отменить удаление можно в течение 14 дней</p>
+                            <p>Ваш данные аккаунт, отправленные файлы и история, будет навсегда удален, отменить удаление можно в течение 14 дней</p>
                         
                         </div>
 
@@ -183,13 +177,10 @@ export default function DeleteAccount() {
 
 
                     <footer className={style.styleFooter}>
-
-                        {/* <span className={style.error}>{error}</span> */}
-
                         {
 
                             isVerify == true ? (
-                                <button type="submit" className={style.styleButtonDelete}>Удалить</button>
+                                <button className={style.styleButtonDelete}>Удалить</button>
                             ) : (
                                 <div></div>
                             )
@@ -202,7 +193,7 @@ export default function DeleteAccount() {
 
 
                 
-            </form>
+            </div>
 
         </div>
     );

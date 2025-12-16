@@ -77,11 +77,12 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
               if (serverMessage.response?.data?.msg != undefined) {
                 console.log(serverMessage.response?.data?.msg);   
                 
-                if (serverMessage.response?.data?.msg == "invalid token") {
+                if (serverMessage.response?.data?.msg == "invalid token" || serverMessage.response?.data?.msg == "invalid data") {
                   router.push('/login')
-                } else if (serverMessage.response?.data?.msg == "invalid data") {
-                  router.push('/login')
+                } else if (serverMessage.response?.data?.msg == "Пользователь не верифицировал почту") {
+                  router.push('/signup/email/verification')
                 }
+
               } else {
                 console.log(serverMessage.message)
 
@@ -169,7 +170,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
                   <h2 className={style.burgerMenuTitle}>Меню</h2>
 
                   <button type="button" className={style.burgerMenuButtonClose} onClick={() => setShowBurgerMenu(false)}>
-                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#ffffffff">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 -960 960 960" width="30px" fill="#ffffffff">
                       <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/>
                     </svg>
                   </button>
