@@ -26,6 +26,7 @@ router.get('/getUserData', authMidelwares, async (req, res, next) => {
     const userId = req.userId
 
     try {
+
         const user = await Users.findOne({_id: userId})
 
         if (user != null && user.isVerified != false && user.isDelete != true) {
@@ -35,6 +36,7 @@ router.get('/getUserData', authMidelwares, async (req, res, next) => {
         } else {
             res.status(500).json({msg: 'invalid data'})
         }
+
 
     } catch (error) {
         res.status(500).json({msg: error.message})

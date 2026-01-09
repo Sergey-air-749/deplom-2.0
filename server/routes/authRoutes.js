@@ -102,14 +102,7 @@ router.post('/signup/guest', async (req, res) => {
         const shareId = Math.floor(Math.random() * 99999999)
         const newUser = new Users(
             {
-                email: '',
-                username: '', 
-                password: '',
                 shareId: shareId,
-                avatar: { 
-                    '400': "http://localhost:7000/api/images/avatars/default", 
-                    '1000': "http://localhost:7000/api/images/avatars/default" 
-                },
                 isGuest: true
             }
         )

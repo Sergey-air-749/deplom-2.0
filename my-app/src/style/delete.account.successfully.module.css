@@ -1,4 +1,4 @@
-/* .deleteAccount {
+/* .deleteAccountSuccessfully {
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -6,23 +6,24 @@
     align-items: center;
 } */
 
-/* .deleteAccountBlock {
+/* .deleteAccountSuccessfullyBlock {
     width: 400px;
 }
 */
 
 
 
-.deleteAccount {
+.deleteAccountSuccessfully {
     width: 100%;
     height: 100%;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     background-color: rgb(26, 26, 26);
 }
 
-.deleteAccountForm {
+.deleteAccountSuccessfullyForm {
     position: relative;
     display: flex;
     width: 500px;
@@ -33,7 +34,7 @@
     padding: 40px;
 }
 
-.deleteAccountHead {
+.deleteAccountSuccessfullyHead {
     display: flex;
     align-items: center;
     justify-content: start;
@@ -64,7 +65,7 @@
 
 
 
-.deleteAccountMainHead {
+.deleteAccountSuccessfullyMainHead {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -86,7 +87,7 @@
 }
 
 
-.deleteAccountInfo {
+.deleteAccountSuccessfullyInfo {
     display: flex;
     flex-direction: column;
     /* padding: 10px; */
@@ -94,11 +95,11 @@
     gap: 20px;
 }
 
-.deleteAccountInfo h3 {
+.deleteAccountSuccessfullyInfo h3 {
     color: #ffffff;
 }
 
-.deleteAccountInfo p {
+.deleteAccountSuccessfullyInfo p {
     color: #c0c0c0;
 }
 
@@ -134,7 +135,7 @@
 
 
 @media (max-width: 500px) {
-    .deleteAccountForm {
+    .deleteAccountSuccessfullyForm {
         width: 100%;
         height: 100vh;
         border: none;
@@ -161,19 +162,19 @@
 /* 
 
 @media (max-width: 430px) {
-    .deleteAccountBlock {
+    .deleteAccountSuccessfullyBlock {
         width: 400px;
     }
 }
 
 @media (max-width: 380px) {
-    .deleteAccountBlock {
+    .deleteAccountSuccessfullyBlock {
         width: 350px;
     }
 }
 
 @media (max-width: 320px) {
-    .deleteAccountBlock {
+    .deleteAccountSuccessfullyBlock {
         width: 300px;
     }
 }

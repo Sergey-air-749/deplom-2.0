@@ -231,6 +231,7 @@ function Sendfile() {
     try {
 
       let username = userData?.username
+     
       const token = localStorage?.getItem("token")
       const date = new Date()
       let device = ""
@@ -270,9 +271,10 @@ function Sendfile() {
             textValue: text,
             device: device,
             data: dateParse,
-            username: username
+            username: username,
           }
 
+          console.log(obj);
 
           const response = await axios.post('http://localhost:7000/api/textLoad/' + shareId, obj, {
             headers: {

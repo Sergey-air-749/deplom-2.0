@@ -1,7 +1,7 @@
 "use client"
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import Link from "next/link";
-import style from "../../../../../style/verify.email.module.css"
+import style from "../../../../../style/resetpassword.verification.module.css"
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import { useAppSelector } from "../../../../../components/hooks";
@@ -105,8 +105,6 @@ export default function ResetPasswordVerification() {
     const buttonGetТewСode = async () => {
 
             try {
-            
-                const token = localStorage?.getItem('token')
 
                 const response = await axios.post('http://localhost:7000/api/login/resetpassword',
                     {
@@ -114,7 +112,6 @@ export default function ResetPasswordVerification() {
                     },
                     {
                         headers: {
-                            'authorization': `Bearer ${token}`,
                             'Content-Type': 'application/json'
                         }, 
                     }
@@ -143,8 +140,6 @@ export default function ResetPasswordVerification() {
     const buttonBackPage = async () => {
 
             try {
-            
-                const token = localStorage?.getItem('token')
 
                 const response = await axios.post('http://localhost:7000/api/login/resetpassword/cancel',
                     {
@@ -152,7 +147,6 @@ export default function ResetPasswordVerification() {
                     },
                     {
                         headers: {
-                            'authorization': `Bearer ${token}`,
                             'Content-Type': 'application/json'
                         }, 
                     }
@@ -200,9 +194,9 @@ export default function ResetPasswordVerification() {
 
 
     return (
-        <div className={style.changeEmail}>
+        <div className={style.resetPasswordVerification}>
             
-            <form className={style.formLogin} onSubmit={(e) => submitUserUpData(e)}>
+            <form className={style.formResetPasswordVerification} onSubmit={(e) => submitUserUpData(e)}>
 
                 <div className={style.formHead}>
 
@@ -228,9 +222,9 @@ export default function ResetPasswordVerification() {
                         <h2>Введите код из эл. почты</h2>
 
                         {
-                            localStorage.getItem('userEmail') != null ? (
+                            email != null ? (
                                 <div>
-                                    <p>Мы отправели код потверждения на <span>{localStorage.getItem('userEmail')}</span></p>    
+                                    <p>Мы отправели код потверждения на <span>{email}</span></p>    
                                 </div>
                             ) : (
                                 <div></div>

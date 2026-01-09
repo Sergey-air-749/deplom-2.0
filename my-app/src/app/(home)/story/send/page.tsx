@@ -342,6 +342,18 @@ export default function sendFileStory() {
                                                 <span className={style.fileInfoText}>Получатель: {file.userWillReceive}</span>
                                                 <span className={style.fileInfoText}>Отправлено с устройства: {file.sentFromDevice}</span>
                                                 <span className={style.fileInfoText}>Время: {file.data}</span>
+                                                
+                                                {
+                                                    file.status == 'sent' ? (
+                                                        <span className={style.fileInfoText}>Статус: Отправлено</span>
+                                                    ) : file.status == 'accepted' ? (
+                                                        <span className={style.fileInfoText}>Статус: Принято</span>
+                                                    ) : file.status == 'refusal' ? (
+                                                        <span className={style.fileInfoText}>Статус: Отказон</span>
+                                                    ) : (
+                                                        <span></span>
+                                                    )
+                                                }
                                             </div>
 
                                             <div className={style.fileButtons}>

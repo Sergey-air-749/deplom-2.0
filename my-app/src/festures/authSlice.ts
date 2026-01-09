@@ -9,6 +9,7 @@ interface FileItem {
   userWillReceive: string;
   sentFromDevice: string;
   id: string;
+  status: string;
 }
 
 
@@ -26,6 +27,7 @@ interface AuthState {
         emailNew: String,
         filseStorySend: FileItem[],
         filseStoryGet: FileItem[],
+        isGuest: Boolean
     } | null,
 }
 

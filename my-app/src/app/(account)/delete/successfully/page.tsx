@@ -1,7 +1,7 @@
 "use client"
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import Link from "next/link";
-import style from "../../../../style/delete.account.module.css"
+import style from "../../../../style/delete.account.successfully.module.css"
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import { useAppSelector } from "../../../../components/hooks";
@@ -76,7 +76,7 @@ export default function SignupEmail() {
             }
         }
 
-        verifySession()
+        // verifySession()
 
     }, [])
 
@@ -95,15 +95,15 @@ export default function SignupEmail() {
 
 
     return (
-        <div className={style.deleteAccount}>
+        <div className={style.deleteAccountSuccessfully}>
             
-            <form className={style.deleteAccountForm}>
+            <form className={style.deleteAccountSuccessfullyForm}>
 
                 <div className={style.content}>
 
                     <main>
 
-                        <div className={style.deleteAccountMainHead}>
+                        <div className={style.deleteAccountSuccessfullyMainHead}>
 
                             <div className={style.formIcon}>
 
@@ -126,7 +126,7 @@ export default function SignupEmail() {
                         </div>
 
 
-                        <div className={style.deleteAccountInfo}>
+                        <div className={style.deleteAccountSuccessfullyInfo}>
 
                             <p>Ваш данные аккаунт, отправленные файлы и история, были удалены, отменить удаление можно в течение 14 дней</p>
                         

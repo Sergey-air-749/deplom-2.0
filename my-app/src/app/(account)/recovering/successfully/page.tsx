@@ -1,12 +1,12 @@
 "use client"
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import Link from "next/link";
-import style from "../../../../style/delete.account.module.css"
+import style from "../../../../style/recovering.successfully.module.css"
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import { useAppSelector } from "../../../../components/hooks";
 
-export default function SignupEmail() {
+export default function RecoverSuccessfully() {
 
     const { isAuth, userData } = useAppSelector(state => state.authReducer)
     const [password, setPassword] = useState("")
@@ -26,15 +26,15 @@ export default function SignupEmail() {
     }
 
     return (
-        <div className={style.deleteAccount}>
+        <div className={style.recoverAccountSuccessfully}>
             
-            <form className={style.deleteAccountForm}>
+            <form className={style.recoverAccountSuccessfullyForm}>
 
                 <div className={style.content}>
 
                     <main>
 
-                        <div className={style.deleteAccountMainHead}>
+                        <div className={style.recoverAccountSuccessfullyMainHead}>
 
                             <div className={style.formIcon}>
                                 
@@ -60,7 +60,7 @@ export default function SignupEmail() {
                         </div>
 
 
-                        <div className={style.deleteAccountInfo}>
+                        <div className={style.recoverAccountSuccessfullyInfo}>
 
                             <p>Ваш аккаунт, отправленные вам файлы и история, были васстановлены</p>
                         

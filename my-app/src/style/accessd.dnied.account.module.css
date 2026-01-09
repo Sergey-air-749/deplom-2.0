@@ -1,4 +1,4 @@
-/* .deleteAccount {
+/* .accountSettingAccessdDnied {
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -6,23 +6,24 @@
     align-items: center;
 } */
 
-/* .deleteAccountBlock {
+/* .accountSettingAccessdDniedBlock {
     width: 400px;
 }
 */
 
 
 
-.deleteAccount {
+.accountSettingAccessdDnied {
     width: 100%;
     height: 100%;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     background-color: rgb(26, 26, 26);
 }
 
-.deleteAccountForm {
+.accountSettingAccessdDniedForm {
     position: relative;
     display: flex;
     width: 500px;
@@ -33,7 +34,7 @@
     padding: 40px;
 }
 
-.deleteAccountHead {
+.accountSettingAccessdDniedHead {
     display: flex;
     align-items: center;
     justify-content: start;
@@ -64,7 +65,7 @@
 
 
 
-.deleteAccountMainHead {
+.accountSettingAccessdDniedMainHead {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -86,7 +87,7 @@
 }
 
 
-.deleteAccountInfo {
+.accountSettingAccessdDniedInfo {
     display: flex;
     flex-direction: column;
     /* padding: 10px; */
@@ -94,11 +95,11 @@
     gap: 20px;
 }
 
-.deleteAccountInfo h3 {
+.accountSettingAccessdDniedInfo h3 {
     color: #ffffff;
 }
 
-.deleteAccountInfo p {
+.accountSettingAccessdDniedInfo p {
     color: #c0c0c0;
 }
 
@@ -108,17 +109,24 @@
     width: 100%;
 }
 
+.accountSettingAccessdDniedButtons {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 20px;
+}
+
 .styleButtonDelete {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: var(--colorCancel);
+    background-color: #008cff;
     border: none;
-    color: var(--width);
+    color: #ffffff;
     font-size: 16px;
     font-weight: 600;
     border-radius: 100px;
-    padding: 10px 120px;
+    padding: 10px 50px;
     outline: none;
     gap: 5px;
 }
@@ -134,13 +142,13 @@
 
 
 @media (max-width: 500px) {
-    .deleteAccountForm {
+    .accountSettingAccessdDniedForm {
         width: 100%;
         height: 100vh;
         border: none;
         border-radius: 0px;
         padding-top: 100px;
-        padding: 20px;
+        padding: 40px;
     }
 
     .content {
@@ -161,19 +169,19 @@
 /* 
 
 @media (max-width: 430px) {
-    .deleteAccountBlock {
+    .accountSettingAccessdDniedBlock {
         width: 400px;
     }
 }
 
 @media (max-width: 380px) {
-    .deleteAccountBlock {
+    .accountSettingAccessdDniedBlock {
         width: 350px;
     }
 }
 
 @media (max-width: 320px) {
-    .deleteAccountBlock {
+    .accountSettingAccessdDniedBlock {
         width: 300px;
     }
 }

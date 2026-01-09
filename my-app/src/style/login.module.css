@@ -130,7 +130,6 @@
 @media (max-width: 500px) {
     .formLogin {
         width: 100%;
-        /* height: 100vh; */
         border: none;
         border-radius: 0px;
         padding-top: 100px;

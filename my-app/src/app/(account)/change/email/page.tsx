@@ -86,7 +86,7 @@ export default function ChangeEmail() {
     return (
         <div className={style.changeEmail}>
             
-            <form className={style.formLogin} onSubmit={(e) => submitUserUpData(e)}>
+            <form className={style.formChangeEmail} onSubmit={(e) => submitUserUpData(e)}>
 
                 <div className={style.formHead}>
 

@@ -70,9 +70,9 @@ export default function Resetpassword() {
 
 
     return (
-        <div className={style.login}>
+        <div className={style.resetPassword}>
             
-            <form className={style.formLogin} onSubmit={(e) => submitLoginUser(e)}>
+            <form className={style.fornResetPassword} onSubmit={(e) => submitLoginUser(e)}>
 
                 <div className={style.formHead}>
 

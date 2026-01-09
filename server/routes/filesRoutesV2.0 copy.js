@@ -77,7 +77,7 @@ router.post('/fileLoadNew/:id/', uploadS3.array('files'), authMidelwares, async 
         const userId = req.userId
     
         const { id } = req.params
-        const { data, device, username } = req.body
+        const { sentToUserId, data, device, username } = req.body
 
         console.log(id);  
         console.log(device);  
@@ -102,6 +102,7 @@ router.post('/fileLoadNew/:id/', uploadS3.array('files'), authMidelwares, async 
                 sentFromDevice: device,
                 data: data,
                 status: 'sent',
+                sentToUserId: sentToUserId,
                 sentToUser: username,
                 userWillReceive: userWillReceive.username,
                 expirationTime: expirationTime
@@ -113,10 +114,6 @@ router.post('/fileLoadNew/:id/', uploadS3.array('files'), authMidelwares, async 
             filseStorySendNew.unshift(obj)
             console.log(sentToUser.filseStorySend);
         })
-
-
-        // sentToUser.save() в данном случае не подходил, и выдавал ошибку
-        // Поэтому пришлось использовать findByIdAndUpdate
 
         // console.log(user);
         await userWillReceive.save()
@@ -143,13 +140,11 @@ router.post('/textLoad/:id', authMidelwares, async (req, res) => {
 
     try {
         const { id } = req.params
-        const { textValue, data, device, username } = req.body
+        const { sentToUserId, textValue, data, device, username } = req.body
         const userId = req.userId
 
-        let filseStorySendNew = sentToUser.filseStorySend
-
-        const userWillReceive = await Users.findOne({shareId: id})
-        const sentToUser = await Users.findOne({_id: userId})
+        const user = await Users.findOne({shareId: id})
+        const sentToUsername = await Users.findOne({_id: userId})
 
         const expirationTime = new Date();
         expirationTime.setDate(expirationTime.getDate() + 14);
@@ -160,21 +155,21 @@ router.post('/textLoad/:id', authMidelwares, async (req, res) => {
             sentFromDevice: device,
             data: data,
             status: 'sent',
+            sentToUserId: sentToUserId,
             sentToUser: username,
-            userWillReceive: userWillReceive.username,
+            userWillReceive: user.username,
             expirationTime: expirationTime
         }
 
-        userWillReceive.filse.push(obj)
-        filseStorySendNew.unshift(obj)
-        console.log(sentToUser.filseStorySend);
+        console.log(obj);
 
-        // sentToUser.save() в данном случае не подходил, и выдавал ошибку
-        // Поэтому пришлось использовать findByIdAndUpdate
+        user.filse.push(obj)
+        sentToUsername.filseStorySend.push(obj)
 
-        console.log(userWillReceive);
-        await userWillReceive.save()
-        await Users.findByIdAndUpdate({_id: userId}, {filseStorySend: filseStorySendNew})
+        console.log(user);
+        await user.save()
+        await sentToUsername.save()
+
 
         res.status(200).send({msg:'Текст успешно загружены!'});
     } catch (error) {
@@ -225,25 +220,12 @@ router.get('/getDownloadNew/:option/:shareId/:fileId', async (req, res) => {
         if (option == 'file') {
             if (getFile != undefined) {
 
-                
-
-                // использовать здесь .save() бесполезно записи не происходят
-
-
-
-                // Пльзователь принял файл, запись в историю получении
-
                 getFile.status = 'accepted'
-                let filseStoryGetNew = userShareId.filseStoryGet
-                filseStoryGetNew.unshift(getFile)
+                userShareId.filseStoryGet.unshift(getFile)
                 userShareId.filse = deleteFile
 
-                await Users.findOneAndUpdate({shareId: shareId}, {filseStoryGet: filseStoryGetNew, filse: deleteFile})
+                await userShareId.save()
 
-
-
-
-                // переписываем статус файла, для отправителя
 
                 const sentToUserId = await Users.findOne({shareId: getFile.sentToUserId})
                 const filseStorySendNew = sentToUserId.filseStorySend
@@ -251,8 +233,10 @@ router.get('/getDownloadNew/:option/:shareId/:fileId', async (req, res) => {
                 const reStatus = filseStorySendNew.find(file => file.id == fileId)
 
                 reStatus.status = 'accepted'
-                await Users.findOneAndUpdate({shareId: getFile.sentToUserId}, {filseStorySend: filseStorySendNew})
+                const user = await Users.findOneAndUpdate({shareId: getFile.sentToUserId}, {filseStorySend: filseStorySendNew})
+                console.log("Обновленный объект", user);
                 console.log(filseStorySendNew);
+                
 
 
 
@@ -279,40 +263,9 @@ router.get('/getDownloadNew/:option/:shareId/:fileId', async (req, res) => {
         } else if (option == 'text') {
 
             if (getFile != undefined) {
-
-
-                // использовать здесь .save() бесполезно записи не происходят
-
-
-
-                // Пльзователь принял файл, запись в историю получении
-
-                getFile.status = 'accepted'
-                let filseStoryGetNew = userShareId.filseStoryGet
-                filseStoryGetNew.unshift(getFile)
+                userShareId.filseStoryGet.unshift(getFile)
                 userShareId.filse = deleteFile
-
-                await Users.findOneAndUpdate({shareId: shareId}, {filseStoryGet: filseStoryGetNew, filse: deleteFile})
-
-
-
-
-
-                // переписываем статус файла, для отправителя
-
-                const sentToUserId = await Users.findOne({shareId: getFile.sentToUserId})
-                const filseStorySendNew = sentToUserId.filseStorySend
-                
-                const reStatus = filseStorySendNew.find(file => file.id == fileId)
-
-                reStatus.status = 'accepted'
-                await Users.findOneAndUpdate({shareId: getFile.sentToUserId}, {filseStorySend: filseStorySendNew})
-                console.log(filseStorySendNew);
-
-
-
-
-                
+                await userShareId.save()
 
                 res.send({msg:'Текст принет'});
             } else {
@@ -340,30 +293,9 @@ router.get('/files/cancel/:shareId', async (req, res) => {  // <--- Добави
         const { shareId } = req.params
         const user = await Users.findOne({shareId: shareId})
 
-        user.filse.forEach(async (file, index) => {
+        user.filse.forEach((file, index) => {
 
-            const sentToUser = await Users.findOne({shareId: file.sentToUserId})
-            let filseStorySendNew = sentToUser.filseStorySend
-
-            if (sentToUser != null) {
-           
-                const newFilseFind = filseStorySendNew.find((item) => item.id == id)
-                
-                console.log('newFilseFind ', newFilseFind);
-
-                if (sentToUser != null) {
-                    newFilseFind.status = 'refusal'
-                    console.log('filseStorySendNew ', filseStorySendNew);
-                    
-                    await Users.findOneAndUpdate({shareId: file.sentToUserId}, {filseStorySend: filseStorySendNew})
-                } else {
-                
-                }
-
-            } else {
-                
-            }
-
+            file.status = 'refusal'
 
         });
 
@@ -380,27 +312,19 @@ router.get('/files/cancel/:shareId', async (req, res) => {  // <--- Добави
 router.get('/files/cancel/:shareId/:id', async (req, res) => {  // <--- Добавить authMidelwares
     try {
         const { shareId, id } = req.params
-        console.log(req.params)
         const user = await Users.findOne({shareId: shareId})
 
-        const newFilseFind = user.filse.find((item) => item.id == id)
+        const newFilseFind = user.filse.find((item) => item.id != id)
         const newFilseFilter = user.filse.filter((item) => item.id != id)
 
         const sentToUser = await Users.findOne({shareId: newFilseFind.sentToUserId})
-        let filseStorySendNew = sentToUser.filseStorySend
-        console.log('filseStorySend', filseStorySendNew);
-        
+
         if (sentToUser != null) {
            
-            const newFilseFind = filseStorySendNew.find((item) => item.id == id)
+            const newFilseFind = sentToUser.filseStorySend.find((item) => item.id != id)
             
-            console.log('newFilseFind ', newFilseFind);
-
             if (sentToUser != null) {
                 newFilseFind.status = 'refusal'
-                console.log('filseStorySendNew ', filseStorySendNew);
-                
-                await Users.findOneAndUpdate({shareId: newFilseFind.sentToUserId}, {filseStorySend: filseStorySendNew})
             } else {
             
             }
@@ -412,6 +336,7 @@ router.get('/files/cancel/:shareId/:id', async (req, res) => {  // <--- Доба
 
         user.filse = newFilseFilter
         await user.save()
+        await sentToUser.save()
         
         res.send({msg: 'Загрузка отменена'});
     } catch (error) {

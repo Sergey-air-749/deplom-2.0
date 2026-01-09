@@ -141,7 +141,7 @@ export default function Login() {
     return (
         <div className={style.changePassword}>
             
-            <form className={style.formLogin} onSubmit={(e) => submitUserUpData(e)}>
+            <form className={style.formChangePassword} onSubmit={(e) => submitUserUpData(e)}>
 
                 <div className={style.formHead}>
 
