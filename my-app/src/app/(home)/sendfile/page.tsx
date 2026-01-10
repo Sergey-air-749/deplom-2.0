@@ -6,8 +6,18 @@ import Link from "next/link";
 import { useAppSelector, useAppDispatch, useAppStore } from '../../../components/hooks'
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { io } from 'socket.io-client'
+import { io, Socket } from 'socket.io-client'
 // import { useTranslations } from "next-intl";
+
+interface recipientDetailsData {
+  avatar: {
+    "400": string,
+    "1000": string
+  }, 
+  username: string
+}
+
+
 
 function Sendfile() {
   const [files, setFiles] = useState<File[]>([])
@@ -16,6 +26,8 @@ function Sendfile() {
   const [option, setOption] = useState("File")
   const [error, setError] = useState("")
   const [message, setMessage] = useState("")
+  const [recipientDetailsDataShow, setRecipientDetailsDataShow] = useState<boolean>(false)
+  const [recipientDetailsData, setRecipientDetails] = useState<null | recipientDetailsData>(null)
   const [translationsLoading, setTranslationsLoading] = useState(false);
 
   const { isAuth, userData } = useAppSelector(state => state.authReducer)
@@ -25,40 +37,19 @@ function Sendfile() {
   const fileAddInputRef = useRef<HTMLInputElement | null>(null);
   const textareaInputRef = useRef<HTMLTextAreaElement | null>(null);
 
-  const socket = io('http://localhost:7001/');
+  // const socket = io('http://localhost:7001/');
 
-
-
+  const socketRef = useRef<Socket | any>(null);
   
+  useEffect(() => {
+    if (!socketRef.current) {
+      socketRef.current = io('http://localhost:7001/');
+    }
 
-
-  // const [uploading, setUploading] = useState(false);
-  // const [uploaded, setUploaded] = useState<any[]>([]);
-
-
-  // const handleUpload = async (e: FormEvent<HTMLFormElement>) => {
-  //   e.preventDefault()
-  //   const form = new FormData();
-
-  //   files.forEach(f => form.append("files", f));
-
-  //   const res = await fetch("http://localhost:7000/upload", {
-  //     method: "POST",
-  //     body: form,
-  //   });
-
-  //   const data = await res.json();
-  //   console.log("RESULT:", data);
-  // };
-
-
-
-
-
-
-
-
-
+    return () => {
+      socketRef.current.disconnect();
+    };
+  }, []);
 
 
 
@@ -91,36 +82,10 @@ function Sendfile() {
     console.log(files);
   }, [files])
 
+  useEffect(() => {
+    console.log(recipientDetailsData);
+  }, [recipientDetailsData])
 
-
-
-  // Попробовать сделать функцией
-
-  // const t = useTranslations('ru');
-
-  // useEffect(() => {
-  //   console.log(i18n.isInitialized);
-  // }, [i18n.isInitialized])
-
-  // useEffect(() => {
-  //   console.log(ready);
-  // }, [ready])
-
-  // useEffect(() => {
-  //   setTranslationsLoading(true);
-  // }, []);
-
-  // if (!translationsLoading) {
-  //   return null;
-  // }
-
-  // const changeLanguage = async (lang: "en" | "ru") => {
-  //   await i18n.changeLanguage(lang);
-  // };
-
-
-
-  
 
 
 
@@ -220,8 +185,47 @@ function Sendfile() {
     setText(e.target.value)
   }
     
-  const valueShareId = (e: ChangeEvent<HTMLInputElement>) => {
-    setShareId(e.target.value)
+  const valueShareId = async (e: ChangeEvent<HTMLInputElement>) => {
+
+    const value = e.target.value
+    
+    setShareId(value)
+
+    try {
+
+      if (value != '') {
+        
+        setRecipientDetailsDataShow(true)
+
+        const response = await axios.get('http://localhost:7000/api/getUserDataById/' + value);
+  
+        console.log('Response:', response);
+  
+        setRecipientDetails(response.data)
+        
+      } else {
+        setRecipientDetails(null)
+        setRecipientDetailsDataShow(false)
+      }
+
+
+    } catch (error) {
+      console.log(error);
+      if (axios.isAxiosError(error)) {
+        const serverMessage = error
+        console.log(serverMessage);
+        
+        if (serverMessage.response?.data?.msg != undefined) {
+          console.log(serverMessage.response?.data?.msg);     
+          if (serverMessage.response?.data?.msg == 'Пользователь не найден') {
+            setRecipientDetails(null)
+          }
+        } else {
+          console.log(serverMessage.message)
+        }
+      }
+    }
+
   }
 
 
@@ -231,7 +235,9 @@ function Sendfile() {
     try {
 
       let username = userData?.username
-     
+      let sentToUserId = userData?.shareId // Для коректной работы статуса файла
+      console.log(sentToUserId);
+      
       const token = localStorage?.getItem("token")
       const date = new Date()
       let device = ""
@@ -272,6 +278,7 @@ function Sendfile() {
             device: device,
             data: dateParse,
             username: username,
+            sentToUserId: sentToUserId
           }
 
           console.log(obj);
@@ -287,7 +294,7 @@ function Sendfile() {
 
           setShareId("")
           setText("")
-          socket.emit('pingfiles', shareId);
+          socketRef.current.emit('pingfilesShareId', shareId);
           setMessage("Текст отправлены")
 
         }
@@ -306,6 +313,7 @@ function Sendfile() {
           formData.append('device', device);
           formData.append('data', dateParse);
           formData.append('username', username as string);
+          formData.append('sentToUserId', sentToUserId as string);
          
 
           formData.forEach((value, key) => {
@@ -327,7 +335,7 @@ function Sendfile() {
           setShareId("")
           setText("")
           setFiles([])
-          socket.emit('pingfiles', shareId);
+          socketRef.current.emit('pingfilesShareId', shareId);
           setMessage("Файлы отправлены")
 
         }
@@ -461,7 +469,7 @@ function Sendfile() {
               </div>
             ) : (
               <div className={style.notFile}>
-                <span>Файлов нет</span>
+                <span>Файлы не выбраны</span>
               </div>
             )
           }
@@ -484,6 +492,42 @@ function Sendfile() {
               )
             }
             <input type="tel" value={shareId} name="userId" onChange={(e) => valueShareId(e)} placeholder="id Устройства" className={` ${style.styleInput} `} required/>
+              
+
+            {
+              
+              recipientDetailsDataShow != false ? (
+
+                recipientDetailsData == null ? (
+                  <div className={style.recipientDetailsNotFound}>
+                    <span>Пользователь не найден</span>
+                  </div>
+                ) : (
+
+                  <div className={style.recipientDetailsBlock}>
+
+                    <div className={style.recipientDetails}>
+                      
+                      <div className={style.recipientDetailsAvatarBlock}>
+                        <img src={recipientDetailsData?.avatar[400]} alt="" className={style.recipientDetailsAvatar}/>
+                      </div>
+
+                      <div className={style.recipientDetailsInfo}>
+                        <span>{recipientDetailsData?.username}</span>
+                      </div>
+
+                    </div>
+
+                  </div>
+
+                )
+              ) : (
+                <div></div>
+              )
+
+            }
+
+
           </div>
 
           <div className={style.formButtons} style={{color: 'white' }}>
@@ -511,5 +555,4 @@ function Sendfile() {
   );
 }
 
-// export default dynamic(() => Promise.resolve(Sendfile), { ssr: false });
 export default Sendfile

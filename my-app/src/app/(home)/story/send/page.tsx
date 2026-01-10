@@ -1,5 +1,5 @@
 "use client"
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import style from "../../../../style/sendFileStory.module.css";
 
 import { useAppSelector, useAppDispatch, useAppStore } from '../../../../components/hooks'
@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 
 import Link from "next/link";
 import axios from "axios";
+import { io, Socket } from "socket.io-client";
 
 
 export default function sendFileStory() {
@@ -16,6 +17,20 @@ export default function sendFileStory() {
     const [showMessageSettingsPopUp, setShowMessageSettingsPopUp] = useState(false)
     const { isAuth, userData } = useAppSelector(state => state.authReducer)
     const userFileStory = userData?.filseStorySend
+
+    // const socket = io('http://localhost:7001/');
+
+    const socketRef = useRef<Socket | any>(null);
+
+    useEffect(() => {
+        if (!socketRef.current) {
+            socketRef.current = io('http://localhost:7001/');
+        }
+
+        return () => {
+            socketRef.current.disconnect();
+        };
+    }, []);
 
     const dispatch = useAppDispatch()
 
@@ -115,6 +130,53 @@ export default function sendFileStory() {
             })
 
             console.log('Response:', response.data);
+            getUserData()
+
+        } catch (error) {
+            console.log(error);
+            if (axios.isAxiosError(error)) {
+                const serverMessage = error
+                console.log(serverMessage);
+                
+                if (serverMessage.response?.data?.msg != undefined) {
+                    console.log(serverMessage.response?.data?.msg);   
+                    
+                    if (serverMessage.response?.data?.msg == "invalid token") {
+                        router.push('/login')
+                    }
+                } else {
+                    console.log(serverMessage.message)
+                }
+            }
+        }
+    }
+
+
+    const deleteSentFile = async (id: string, userWillReceive: string) => {
+
+        closeMessageDeletePopUpFun()
+        closeSettingsPopUpFun()
+        const token = localStorage?.getItem("token")
+
+        console.log(token);
+        
+
+        try {
+
+            const response = await axios.post('http://localhost:7000/api/files/send/delete/' + id, 
+                {
+                    userWillReceiveName: userWillReceive
+                }, 
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`,
+                    }
+                }
+            )
+
+            console.log('Response:', response.data);
+            socketRef.current.emit('pingfilesUserName', userWillReceive);
             getUserData()
 
         } catch (error) {
@@ -358,6 +420,14 @@ export default function sendFileStory() {
 
                                             <div className={style.fileButtons}>
                                                 <button type="button" onClick={() => deleteFileStory(file.id)} className={` ${style.messageDeletePopUpOptionButton} ${style.filesAllDelete} `}>Удалить</button>
+
+                                                {
+                                                    file.status == 'sent' ? (
+                                                        <button type="button" onClick={() => deleteSentFile(file.id, file.userWillReceive)} className={` ${style.messageDeletePopUpOptionButton} ${style.filesAllDelete} `}>Отменить отправку</button>
+                                                    ) : (
+                                                        <div></div>
+                                                    )
+                                                }
                                             </div>
                                         
                                         </div> 

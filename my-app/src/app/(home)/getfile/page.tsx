@@ -4,7 +4,7 @@ import style from "../../../style/getfile.module.css";
 
 import { setAuth, setUserData } from '../../../festures/authSlice'
 import { useAppSelector, useAppDispatch, useAppStore } from '../../../components/hooks'
-import { io } from 'socket.io-client'
+import { io, Socket } from 'socket.io-client'
 
 import Link from "next/link";
 import axios from "axios";
@@ -25,7 +25,19 @@ export default function Getfile() {
   const [shareId, setShareId] = useState<String>('')
   const { isAuth, userData } = useAppSelector(state => state.authReducer)
   
-  const socket = io('http://localhost:7001/');
+  // const socket = io('http://localhost:7001/');
+
+  const socketRef = useRef<Socket | any>(null);
+
+  useEffect(() => {
+    if (!socketRef.current) {
+      socketRef.current = io('http://localhost:7001/');
+    }
+
+    return () => {
+      socketRef.current.disconnect();
+    };
+  }, []);
 
   useEffect(() => {
     console.log(files);
@@ -35,16 +47,18 @@ export default function Getfile() {
     console.log('New Share ID is:', shareId);
   }, [shareId])
   
+
+  
   useEffect(() => {
     if (userData?.shareId != undefined) {
 
-      socket.on('files', async (files) => {
+      socketRef.current.on('files', async (files: any[]) => {
         console.log(files);
         setFiles(files)
         showPopUpFun()
       });
 
-      socket.emit('pingfiles', userData?.shareId);
+      socketRef.current.emit('pingfilesShareId', userData?.shareId);
 
     } else {
       console.log(2);
@@ -191,20 +205,6 @@ export default function Getfile() {
 
       }
       
-
-      
-      // let link = document.createElement('a');
-      // link.download = String(files[i].filename);
-
-      // let blob = new Blob([`http://localhost:7000/api/getFileDownload/${shareId}/${files[i].filename}`])
-      // link.href = URL.createObjectURL(blob);
-      // console.log(blob);
-
-      // console.log(link);
-      
-
-      // link.click();
-      
     }
 
 
@@ -223,8 +223,18 @@ export default function Getfile() {
   const allFilesCancelFun = async () => {
     try {
 
+      const token = localStorage?.getItem("token")
+
       setFiles([])
-      const response = await axios.get('http://localhost:7000/api/files/cancel/' + userData?.shareId)
+      const response = await axios.post('http://localhost:7000/api/files/cancel/' + userData?.shareId,
+        {}, 
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            'authorization': `Bearer ${token}`,
+          }
+        }
+      )
       console.log(response.data);
 
       setShowPopUp(false)
@@ -237,7 +247,17 @@ export default function Getfile() {
   const fileCancelFun = async (id: string) => {
     try {
 
-      const response = await axios.get('http://localhost:7000/api/files/cancel/' + userData?.shareId + '/' +  id)
+      const token = localStorage?.getItem("token")
+
+      const response = await axios.post('http://localhost:7000/api/files/cancel/' + userData?.shareId + '/' +  id, 
+        {}, 
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            'authorization': `Bearer ${token}`,
+          }
+        }
+      )
       console.log(response.data);
 
       if (JSON.stringify(response.data) == JSON.stringify([])) {

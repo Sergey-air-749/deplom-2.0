@@ -32,10 +32,40 @@ router.get('/getUserData', authMidelwares, async (req, res, next) => {
         if (user != null && user.isVerified != false && user.isDelete != true) {
             console.log(user);
             user.password = undefined
-            res.json(user)
+            res.status(200).json(user)
         } else {
             res.status(500).json({msg: 'invalid data'})
         }
+
+
+    } catch (error) {
+        res.status(500).json({msg: error.message})
+    }
+});
+
+router.get('/getUserDataById/:id', async (req, res, next) => {
+
+    const { id } = req.params
+
+    try {
+
+        const user = await Users.findOne({shareId: id})
+        console.log(user);
+        
+
+        if (user != null) {
+
+            const newUser = {
+                username: user.username,
+                avatar: user.avatar
+            }
+    
+            res.status(200).json(newUser)
+          
+        } else {
+            res.status(400).json({msg: 'Пользователь не найден'})
+        }
+
 
 
     } catch (error) {

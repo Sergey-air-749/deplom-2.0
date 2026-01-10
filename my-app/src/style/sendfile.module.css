@@ -78,6 +78,59 @@
 }
 
 
+/* recipientDetails */
+
+.recipientDetailsBlock {
+    display: flex;
+    align-items: center;
+    background-color: #212121;
+    border: 1px solid rgb(57 57 57);
+    border-radius: 20px;
+    padding: 10px;
+}
+
+.recipientDetails {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+}
+
+.recipientDetailsAvatarBlock {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.recipientDetailsAvatar {
+    border-radius: 100px;
+    width: 50px;
+}
+
+.recipientDetailsInfo span {
+    color: #ffffff;
+}
+
+
+.recipientDetailsNotFound {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.recipientDetailsNotFound span {
+    color: #cfcfcf;
+}
+
+
+
+
+
+
+
+
+
 
 
 .selectBlock {

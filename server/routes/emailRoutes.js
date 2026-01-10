@@ -57,27 +57,6 @@ async function sendVerificationСhangeCode(recipientEmail, code) {
 
 
 
-
-// router.get('/change/time/:userId', async (req, res) => {
-//     try {
-//         const { userId } = req.params
-      
-//         const user = await Users.findOne({_id: userId})
-//         console.log(user);
-
-//         const expirationTime = new Date(user.codeExpires)
-//         const time = expirationTime > new Date()
-
-//         res.status(200).json({msg: time});
-//     } catch (error) {
-//         console.log(error);
-//         res.status(500).json({msg: error.message})
-//     }
-// })
-
-
-
-
 router.post('/:option/email/verify', authMidelwares, async (req, res) => {
     try {
         const { code } = req.body

@@ -28,6 +28,40 @@ router.post('/story/get/delete/:id', authMidelwares, async (req, res) => {
     }
 });
 
+router.post('/files/send/delete/:id', authMidelwares, async (req, res) => {
+    console.log(req.body);
+
+    try {
+        const { id } = req.params
+        const { userWillReceiveName } = req.body
+        const userId = req.userId
+
+        console.log(req.params);
+        console.log(req.body);
+
+        const userWillReceive = await Users.findOne({username: userWillReceiveName})
+        console.log(userWillReceive);
+
+        const newFilse = userWillReceive.filse.filter((item) => item.id != id)
+        userWillReceive.filse = newFilse
+        await userWillReceive.save()
+
+
+        const user = await Users.findOne({_id: userId})
+        console.log(user);
+
+        const newFilseStory = user.filseStorySend.filter((item) => item.id != id)
+        user.filseStorySend = newFilseStory
+        await user.save()
+
+
+        res.status(200).send({msg:'Отправка отменина'});
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({msg: error.message})
+    }
+});
+
 router.post('/story/get/deleteAll/', authMidelwares, async (req, res) => {
     console.log(req.body);
     try {

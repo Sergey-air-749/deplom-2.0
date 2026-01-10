@@ -77,7 +77,7 @@ router.post('/fileLoadNew/:id/', uploadS3.array('files'), authMidelwares, async 
         const userId = req.userId
     
         const { id } = req.params
-        const { data, device, username } = req.body
+        const { sentToUserId, data, device, username } = req.body
 
         console.log(id);  
         console.log(device);  
@@ -102,6 +102,7 @@ router.post('/fileLoadNew/:id/', uploadS3.array('files'), authMidelwares, async 
                 sentFromDevice: device,
                 data: data,
                 status: 'sent',
+                sentToUserId: sentToUserId,
                 sentToUser: username,
                 userWillReceive: userWillReceive.username,
                 expirationTime: expirationTime
@@ -143,7 +144,7 @@ router.post('/textLoad/:id', authMidelwares, async (req, res) => {
 
     try {
         const { id } = req.params
-        const { textValue, data, device, username } = req.body
+        const { sentToUserId, textValue, data, device, username } = req.body
         const userId = req.userId
 
         let filseStorySendNew = sentToUser.filseStorySend
@@ -160,6 +161,7 @@ router.post('/textLoad/:id', authMidelwares, async (req, res) => {
             sentFromDevice: device,
             data: data,
             status: 'sent',
+            sentToUserId: sentToUserId,
             sentToUser: username,
             userWillReceive: userWillReceive.username,
             expirationTime: expirationTime
@@ -183,27 +185,6 @@ router.post('/textLoad/:id', authMidelwares, async (req, res) => {
     }
 });
 
-
-
-
-
-
-
-
-
-
-// router.get('/pingfiles/:shareId', async (req, res) => {  // <--- Добавить authMidelwares
-//     try {
-//         const { shareId } = req.params
-//         const user = await Users.findOne({shareId: shareId})
-        
-//         console.log(JSON.stringify(user.filse));  
-//         res.send(user.filse);
-//     } catch (error) {
-//         console.log(error);  
-//         res.send(error);
-//     }
-// });
 
 
 
@@ -335,18 +316,84 @@ router.get('/getDownloadNew/:option/:shareId/:fileId', async (req, res) => {
 
 
 
-router.get('/files/cancel/:shareId', async (req, res) => {  // <--- Добавить authMidelwares
+router.post('/files/cancel/:shareId',authMidelwares, async (req, res) => {
     try {
         const { shareId } = req.params
-        const user = await Users.findOne({shareId: shareId})
+        const userId = req.userId
 
-        user.filse.forEach(async (file, index) => {
+        const user = await Users.findOne({_id: userId})
 
-            const sentToUser = await Users.findOne({shareId: file.sentToUserId})
+        if (!user) {
+            return res.status(404).send({ msg: 'Пользователь не найден' })
+        }
+
+        if (user.shareId == shareId) {
+
+            for (const file of user.filse) {
+
+                const sentToUser = await Users.findOne({shareId: file.sentToUserId})
+                let filseStorySendNew = sentToUser.filseStorySend
+
+                if (sentToUser != null) {
+            
+                    const newFilseFind = filseStorySendNew.find((item) => item.id == id)
+                    
+                    console.log('newFilseFind ', newFilseFind);
+
+                    if (sentToUser != null) {
+                        newFilseFind.status = 'refusal'
+                        console.log('filseStorySendNew ', filseStorySendNew);
+                        
+                        await Users.findOneAndUpdate({shareId: file.sentToUserId}, {filseStorySend: filseStorySendNew})
+                    } else {
+                    
+                    }
+
+                } else {
+                    
+                }
+
+
+            }
+
+            await user.save()
+            
+            res.send({msg: 'Загрузка отменена'}); 
+        } else {
+            res.status(500).send({msg: 'Ошибка Что-то пошло не так'}); 
+        }
+
+    } catch (error) {
+        console.log(error);  
+        res.send(error);
+    }
+});
+
+
+router.post('/files/cancel/:shareId/:id', authMidelwares, async (req, res) => {
+    try {
+
+        const { shareId, id } = req.params
+        console.log(req.params)
+        const userId = req.userId
+        
+        const user = await Users.findOne({_id: userId})
+
+        if (!user) {
+            return res.status(404).send({ msg: 'Пользователь не найден' })
+        }
+
+        if (user.shareId == shareId) {
+
+            const newFilseFind = user.filse.find((item) => item.id == id)
+            const newFilseFilter = user.filse.filter((item) => item.id != id)
+
+            const sentToUser = await Users.findOne({shareId: newFilseFind.sentToUserId})
             let filseStorySendNew = sentToUser.filseStorySend
-
+            console.log('filseStorySend', filseStorySendNew);
+            
             if (sentToUser != null) {
-           
+            
                 const newFilseFind = filseStorySendNew.find((item) => item.id == id)
                 
                 console.log('newFilseFind ', newFilseFind);
@@ -355,7 +402,7 @@ router.get('/files/cancel/:shareId', async (req, res) => {  // <--- Добави
                     newFilseFind.status = 'refusal'
                     console.log('filseStorySendNew ', filseStorySendNew);
                     
-                    await Users.findOneAndUpdate({shareId: file.sentToUserId}, {filseStorySend: filseStorySendNew})
+                    await Users.findOneAndUpdate({shareId: newFilseFind.sentToUserId}, {filseStorySend: filseStorySendNew})
                 } else {
                 
                 }
@@ -364,54 +411,12 @@ router.get('/files/cancel/:shareId', async (req, res) => {  // <--- Добави
                 
             }
 
-
-        });
-
-        await user.save()
-        
-        res.send({msg: 'Загрузка отменена'});
-    } catch (error) {
-        console.log(error);  
-        res.send(error);
-    }
-});
-
-
-router.get('/files/cancel/:shareId/:id', async (req, res) => {  // <--- Добавить authMidelwares
-    try {
-        const { shareId, id } = req.params
-        console.log(req.params)
-        const user = await Users.findOne({shareId: shareId})
-
-        const newFilseFind = user.filse.find((item) => item.id == id)
-        const newFilseFilter = user.filse.filter((item) => item.id != id)
-
-        const sentToUser = await Users.findOne({shareId: newFilseFind.sentToUserId})
-        let filseStorySendNew = sentToUser.filseStorySend
-        console.log('filseStorySend', filseStorySendNew);
-        
-        if (sentToUser != null) {
-           
-            const newFilseFind = filseStorySendNew.find((item) => item.id == id)
-            
-            console.log('newFilseFind ', newFilseFind);
-
-            if (sentToUser != null) {
-                newFilseFind.status = 'refusal'
-                console.log('filseStorySendNew ', filseStorySendNew);
-                
-                await Users.findOneAndUpdate({shareId: newFilseFind.sentToUserId}, {filseStorySend: filseStorySendNew})
-            } else {
-            
-            }
+            user.filse = newFilseFilter
+            await user.save()
 
         } else {
-            
+            res.status(500).send({msg: 'Ошибка Что-то пошло не так'}); 
         }
-
-
-        user.filse = newFilseFilter
-        await user.save()
         
         res.send({msg: 'Загрузка отменена'});
     } catch (error) {
@@ -428,11 +433,12 @@ cron.schedule("0 0 * * * *", async () => {
     try {
         const users = await Users.find()
 
-        users.forEach(async (user, index) => {
+        for (const user of users) {
 
             const newFilesDelete = [];
 
-            user.filse.forEach(async (file, index) => {
+            //filse
+            for (const file of user.filse) {
 
                 const expirationTime = new Date(file.expirationTime)
                 
@@ -450,27 +456,10 @@ cron.schedule("0 0 * * * *", async () => {
                     newFilesDelete.push(file);
                 }
 
-            });
+            }
 
-            user.filseStorySend.forEach(async (file, index) => {
-
-                const expirationTime = new Date(file.expirationTime)
-                
-                if (expirationTime < new Date()) {
-
-                    const command = new DeleteObjectCommand({
-                        Bucket: 'sergay-air-bucket-one',
-                        Key: 'files/' + file.filename
-                    })
-
-                    await s3Client.send(command)
-
-                    console.log("Файл удалён:", file.filename);
-                }
-
-            });
-
-            user.filseStoryGet.forEach(async (file, index) => {
+            //filseStorySend
+            for (const file of user.filseStorySend) {
 
                 const expirationTime = new Date(file.expirationTime)
                 
@@ -486,22 +475,35 @@ cron.schedule("0 0 * * * *", async () => {
                     console.log("Файл удалён:", file.filename);
                 }
 
-            });
+            }
+
+            for (const file of user.filseStoryGet) {
+
+                const expirationTime = new Date(file.expirationTime)
+                
+                if (expirationTime < new Date()) {
+
+                    const command = new DeleteObjectCommand({
+                        Bucket: 'sergay-air-bucket-one',
+                        Key: 'files/' + file.filename
+                    })
+
+                    await s3Client.send(command)
+
+                    console.log("Файл удалён:", file.filename);
+                }
+
+            }
 
             user.filse = newFilesDelete
             await user.save();
             
-        });
+        }
 
     } catch (error) {
         console.log(error);   
     }
 });
-
-
-
-
-
 
 
 
